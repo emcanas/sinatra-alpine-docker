@@ -93,7 +93,9 @@ The virtual host must be secured and locked down. As user docker, the ssh access
 	Docker version 17.06.1-ce, build 874a737
 	docker@vm-sinatra:~$ 
 	
+Removing the access to docker user or adding a password would disable some checks from docker-machine; however, the web server would be accessible. This is an issue to investigate and improve on this project.
 
+Alternatively, I have followed some basic security rules linked to a docker container (see References to extra information), as using a base image from a trusted repository (hub.docker.com); or using Linux based systems. However, I need to continue working to lock down and secure the server, and the container too.
 
 
 ***
@@ -101,6 +103,12 @@ The virtual host must be secured and locked down. As user docker, the ssh access
 
 - Sinatra: http://www.sinatrarb.com/
 - Docker images: https://hub.docker.com/ (image based on Alpine Linux used in this project https://hub.docker.com/_/alpine/) 
+- Build a Minimal Docker Container for Ruby Apps: https://blog.codeship.com/build-minimal-docker-container-ruby-apps/
 
+Security:
+
+- 5 tips for securing your Docker containers: http://www.techrepublic.com/article/5-tips-for-securing-your-docker-containers/
+- Docker Security – 6 Ways to Secure Your Docker Containers: https://www.sumologic.com/blog/security/securing-docker-containers/ 
+- The Ultimate Guide to Container Security: https://www.twistlock.com/2017/07/06/ultimate-guide-container-security/
 ***
  
