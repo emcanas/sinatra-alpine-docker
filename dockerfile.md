@@ -7,11 +7,10 @@ For this project, I am using Alpine as OS, some ruby packages and instructions, 
 See below more details about the content of the file.
 
 ***
+###Dockerfile content
 
-####Dockerfile content
-
-** Alpine**
-I have chosen this distribution of Linux, Alpline, to obtain a small image. It is possible to build it in on Ruby ("FROM ruby:lastest-version") but it would require around 1GB. Alpine is a nice tiny alternative.
+**Alpine**
+I have chosen this distribution of Linux, Alpline, to obtain a small image. It is possible to build it in on Ruby ("FROM ~~~~ruby:lastest-version") but it would require around 1GB. Alpine is a nice tiny alternative.
 
 Any dockerfile must contain the keyword "FROM" to initialise a new build from a *based image* (an image with no parent). It will contain all the necessary to contruct the OS or software to run the application. You can find several of those *base images* here: https://hub.docker.com/
 
