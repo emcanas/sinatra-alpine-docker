@@ -88,14 +88,14 @@ All the instructions mentioned above can be executed running this simple bash.
 		Please, provide the name of the image: helloworld
 		Please, introduce the name of the VM (if the machine doesn't exists, a new one will be created): vm-sinatra
 
-Set up the route following the previous step (v) , then access to sinatra web in the browser on http://vm-sinatra 
+Set up the route following the previous step 5, then access to sinatra web in the browser on http://vm-sinatra 
 
 
- ***
-####References and other links
+***
+#### References ##
 
 - Sinatra: http://www.sinatrarb.com/
 - Docker images: https://hub.docker.com/ (image based on Alpine Linux used in this project https://hub.docker.com/_/alpine/) 
 
- ***
+***
  
