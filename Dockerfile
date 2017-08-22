@@ -1,6 +1,6 @@
 FROM alpine:3.2
 
-ENV BUILD_PACKAGES bash curl-dev ruby-dev build-base
+ENV BUILD_PACKAGES bash ruby-dev build-base
 ENV RUBY_PACKAGES ca-certificates ruby ruby-io-console ruby-bundler
 ENV APP_HOME /usr/app/
 

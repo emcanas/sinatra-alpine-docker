@@ -2,14 +2,13 @@
 
 This is a  Apline-Sinatra docker image, based on a simple Hello World ruby application. 
 
-All the environment needed to run the sinatra helloworld.rb app is defined in the docker image; and the docker image is encoded in a small file called "dockerfile". Here, I have provided the OS (Alpine), Ruby, Sinatra and other packages or configurations, and finally the code of the application (helloworld.rb).
+All the environment needed to run the sinatra helloworld.rb app is defined in the docker image; and the docker image is encoded in a small file called "dockerfile". Here, I provide the OS (Alpine), Ruby, Sinatra and other packages or configurations, and finally the code of the application (helloworld.rb).
 
 The built of the dockerfile will provide an image; and the run of the image will provide a container (i.e. a container is a running instance of an image).
 
-To deploy my application, I have choosen a VM created with Virtualbox.  The tool docker-machine is very useful work with docker commands while pointing to this VM. It is possible also to run it locally.
+To deploy my application, I have choosen a VM created with Virtualbox. The tool docker-machine is very useful to work with docker commands while pointing to this VM. It is also possible to run it locally.
 
-
-All the instructions are described allong this documentation and can be executed step by step to follow the whole process (build and run). On the other side, I have coded a simple script (sinatra.sh) that execute all these commands for you (sinatra.sh). 
+The instructions below depict step by step the whole process (build and run). They are based on Ubuntu 16.04; some changes may be required according to your OS. 
  
 ***
 **Pre-requisites**
@@ -20,15 +19,12 @@ Before download and running the project, be sure to install the next tools:
  - Docker Machine: https://docs.docker.com/machine/install-machine/
  - VirtualBox: https://www.virtualbox.org/ (Optional)
 
-The following instructions are based on Ubuntu 16.04; some other changes may be required according to your OS.
-
 ***
 #### **Step by step** ##
  
 1. Download https://github.com/emcanas/sinatra-on-docker-machine.git locally.
 2. Build the image from the dockerfile:  **docker build**
 	
-		cd apps
 		docker build -t helloworld .
 		
 		# docker build -t image_name PATH
@@ -75,20 +71,29 @@ The following instructions are based on Ubuntu 16.04; some other changes may be 
 6. Access to sinatra web in the browser on http://vm-sinatra 
 
 ***
-#### **sinatra.sh** ##
+#### **To improve** ##
 
-All the instructions mentioned above can be executed running this simple bash. 
+The virtual host must be secured and locked down. As user docker, the ssh access is granted without password.
 
+	docker-machine ssh vm-sinatra
+	                        ##         .
+	                  ## ## ##        ==
+	               ## ## ## ## ##    ===
+	           /"""""""""""""""""\___/ ===
+	      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  ===- ~~~
+	           \______ o           __/
+	             \    \         __/
+	              \____\_______/
+	 _                 _   ____     _            _
+	| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __
+	| '_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ '__|
+	| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   <  __/ |
+	|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|
+	Boot2Docker version 17.06.1-ce, build HEAD : 80114bc - Fri Aug 18 17:58:04 UTC 2017
+	Docker version 17.06.1-ce, build 874a737
+	docker@vm-sinatra:~$ 
+	
 
-		./sinatra.sh 
-		 
-		Deploy Sinatra application on VM with Docker
- 		--------------------------------------------
- 
-		Please, provide the name of the image: helloworld
-		Please, introduce the name of the VM (if the machine doesn't exists, a new one will be created): vm-sinatra
-
-Set up the route following the previous step 5, then access to sinatra web in the browser on http://vm-sinatra 
 
 
 ***

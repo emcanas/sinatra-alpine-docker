@@ -13,7 +13,7 @@ See below more details about the content of the file.
 ** Alpine**
 I have chosen this distribution of Linux, Alpline, to obtain a small image. It is possible to build it in on Ruby ("FROM ruby:lastest-version") but it would require around 1GB. Alpine is a nice tiny alternative.
 
-Any dockerfile must contain the keyword "FROM" to initialise a new build from a *based image* (an image with no parent). It will contain all the necessary to contruct the OS or softoware to run the application. You can find several of those *base images* here: https://hub.docker.com/
+Any dockerfile must contain the keyword "FROM" to initialise a new build from a *based image* (an image with no parent). It will contain all the necessary to contruct the OS or software to run the application. You can find several of those *base images* here: https://hub.docker.com/
 
 	FROM alpine:3.2
 
@@ -38,11 +38,11 @@ Configuring a working directory for the scripts and files.
 	WORKDIR $APP_HOME
 	COPY * $APP_HOME
 
-Cleanning the cache after installation! Alpine stores the cache in that folder.
+Cleanning the cache after installation! Alpine stores the cache in the following folder:
 
 	 RUN rm -rf /var/cache/apk/*
 	 
-Providing an environment for Ruby and install sinatra
+Providing an environment for Ruby and install sinatra.
 
 	RUN bundle install
 	RUN gem install sinatra --no-document
