@@ -1,70 +1,67 @@
 # sinatra-on-docker-machine
 
-This is an Apline-Sinatra (simple Hello World application) docker container, that can be  deployed locally or on a remote server provided by virtualbox and use docker with "Docker-machine".
+This is a  Apline-Sinatra docker image, based on a simple Hello World ruby application. 
 
-I have create a docker image, where I have defined my environment (Alpine as OS, Ruby and Sinatra as software and hello-world.rb as application). This environment is defined on the dockerfile (see dockerfile.md).
+All the environment needed to run the sinatra helloworld.rb app is defined in the docker image; and the docker image is encoded in a small file called "dockerfile". Here, I have provided the OS (Alpine), Ruby, Sinatra and other packages or configurations, and finally the code of the application (helloworld.rb).
 
-By building and running the image I can obtain de container; so the application is deployed and running. Although this is a simple application, I have decided to use "docker-compose" to simplify the commands to execute (see docker-compose.md).
+The built of the dockerfile will provide an image; and the run of the image will provide a container (i.e. a container is a running instance of an image).
+
+To deploy my application, I have choosen a VM created with Virtualbox.  The tool docker-machine is very useful work with docker commands while pointing to this VM. It is possible also to run it locally.
 
 
+All the instructions are described allong this documentation and can be executed step by step to follow the whole process (build and run). On the other side, I have coded a simple script (sinatra.sh) that execute all these commands for you (sinatra.sh). 
+ 
 ***
 **Pre-requisites**
 
 Before download and running the project, be sure to install the next tools:
 
  - Docker: https://www.docker.com/
- - Docker Compose: https://docs.docker.com/compose/install/
  - Docker Machine: https://docs.docker.com/machine/install-machine/
  - VirtualBox: https://www.virtualbox.org/ (Optional)
 
 The following instructions are based on Ubuntu 16.04; some other changes may be required according to your OS.
 
 ***
-#### **1 Running the container locally** ##
+#### **Step by step** ##
  
 1. Download https://github.com/emcanas/sinatra-on-docker-machine.git locally.
-2. Build and run the container:  **docker-compose build**
+2. Build the image from the dockerfile:  **docker build**
 	
-		cd .../sinatra-on-docker-machine/apps
-		docker-compose build
-
+		cd apps
+		docker build -t helloworld .
 		
-	If there are no errors, start running the container in background (-d): **docker-compose up -d**
+		# docker build -t image_name PATH
+		# -t (tag) to give a name to the image
+		# PATH:  Path where the dockerfile is located
 	
-		docker-compose up -d
+5. Set up a virtual server using Virtualbox and let docker point to it (let's name it vm-sinatra)
 
+		# 1. Check existing machines
 
-3. Open a browser and check on localhost (port 80)
+		docker-machine ls 
+		NAME             ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER        ERRORS
+		sinatra-host     -        virtualbox   Running   tcp://192.168.99.100:2376           v17.06.1-ce   
+		sinatra-host-a   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.06.1-ce 
 
-***
-####  **2 Running the container on a VM**  ##
- 
-1. Download https://github.com/emcanas/sinatra-on-docker-machine.git locally.
-2. Create a docker-machine: **docker-machine create --driver virtualbox *machine_name* **(let's say vm-sinatra)
-
-		cd .../sinatra-on-docker-machine/apps
-		
-		# Creating the vitural machine
+		# 2. Create a new one
 		docker-machine create --driver virtualbox vm-sinatra
 		
-		# If successfull, check data connection
-		docker-machine env vm-sinatra
-		(...)
-		# Set up a route on your /etc/hosts with the new host (see step 5)
-		export DOCKER_HOST="tcp://192.168.99.102:2376" 
-		(...)
-
-3. Target the new machine to use it when working with docker commands:
-		 
-		eval $(docker-machine env vm-sinatra)
+		# Check status of the machine: 
+		docker-machine status vm-sinatra
+		Running
 		
-		# Confirm:
-		docker-machine active
+		# Point docker to the new vm and confirm
+		 eval $(docker-machine env vm-sinatra)
+		 docker-machine active
 		
-4. Build and run:
+4. Run  the image to create and start the container
 
-		docker-compose build
-		docker-compose up -d
+		docker run -d -p 80:80 helloworld
+		
+		# -p : ports specification
+		# 80:80 (from the host:from the container)
+		# helloworld : name given previously to the build 
 
 5. Set up the route on your hosts: **sudo vim /etc/hosts** 
 
@@ -75,59 +72,23 @@ The following instructions are based on Ubuntu 16.04; some other changes may be 
 		sudo vim /etc/hosts
 		192.168.99.102  vm-sinatra
 
-6. Open a browser and check it! http://vm-sinatra/
+6. Access to sinatra web in the browser on http://vm-sinatra 
 
 ***
-#### **3 sinatra.sh** ##
+#### **sinatra.sh** ##
 
 All the instructions mentioned above can be executed running this simple bash. 
 
-- Deploy it locally (option 1):
 
 		./sinatra.sh 
 		 
-		 Sinatra application deployed with Docker
-		 ----------------------------------------
-		 
-		          1. Locally (http://localhost:80)
-		          2. Virtual server (virtualbox on docker-machine)
-		 
-		 Choose your option:  1
-		 
-		 (...)
-		 
-		 Successfully built 5358ea35f39e
-		 Successfully tagged sinatra-hello:latest
-		 apps_ruby-sinatra_1 is up-to-date
-	 
+		Deploy Sinatra application on VM with Docker
+ 		--------------------------------------------
+ 
+		Please, provide the name of the image: helloworld
+		Please, introduce the name of the VM (if the machine doesn't exists, a new one will be created): vm-sinatra
 
-	Access to sinatra web in the browser on http://localhost: 
-
-- Deploy it on VM (option 2):  
-	 
-		./sinatra.sh 
-		 
-		 Sinatra application deployed with Docker
-		 ----------------------------------------
-		 
-		          1. Locally (http://localhost:80)
-		          2. Virtual server (virtualbox on docker-machine)
-		 
-		  Choose your option: 2
-		  Running docker on a VM
-		  Please, introduce the name of the VM: vm-sinatra
-		  The vm already exists! Skipping docker-machine create ....
-	      
-	       	 (...)
-	       	 	
-	      Successfully built 95ca1cd79810
-	      Successfully tagged sinatra-hello:latest
-	      apps_ruby-sinatra_1 is up-to-date
-		
-	  	  
-	Access to sinatra web in the browser on http://vm-sinatra 
-
-
+Set up the route following the previous step (v) , then access to sinatra web in the browser on http://vm-sinatra 
 
 
  ***
